@@ -42,8 +42,9 @@ const Login = () => {
           text: "User logged in successfully",
           icon: "success",
         });
-        // const { token, user } = response.data;
-        // localStorage.setItem("access_token", token);
+        const { token, user } = response.data;
+        localStorage.setItem("access_token", token);
+        console.log("user", user);
       }
     } catch (error: any) {
       if (error.response) {
