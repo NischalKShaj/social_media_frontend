@@ -8,6 +8,8 @@ import {
   Container,
   Typography,
   TextField,
+  Grid2,
+  Link,
   Input,
 } from "@mui/material";
 import Sidebar from "../sidebar/Sidebar";
@@ -16,7 +18,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 const Post = () => {
   const [formData, setFormData] = useState<FormPost>({
@@ -243,6 +245,18 @@ const Post = () => {
           >
             Create Post
           </Button>
+          <Grid2 container justifyContent="center" sx={{ pt: 2 }}>
+            <Typography variant="body2">
+              Back to home page
+              <Link
+                component={RouterLink}
+                to="/"
+                sx={{ color: "black", ml: 1 }}
+              >
+                Home
+              </Link>
+            </Typography>
+          </Grid2>
         </Container>
       </Box>
     </Box>
