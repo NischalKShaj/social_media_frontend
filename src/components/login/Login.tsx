@@ -44,6 +44,7 @@ const Login = () => {
 
   // for submitting the user data
   const handleSubmit = async (e: React.MouseEvent) => {
+    console.log("url", process.env.REACT_APP_BASE_URL);
     e.preventDefault();
     try {
       const response = await axios.post(
