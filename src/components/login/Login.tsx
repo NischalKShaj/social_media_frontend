@@ -1,7 +1,7 @@
 // <====================== file for creating the login page ==============>
 
 // importing the required modules
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -11,16 +11,30 @@ import {
   Link,
   Grid2,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { FormLogin } from "../../types/types";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { isLoggedIn } from "../../store/slice/userSlice";
+import { RootState } from "../../store/store";
 
 const Login = () => {
   const [formData, setFormData] = useState<FormLogin>({
     email: "",
     password: "",
   });
+  const isAuthorized = useSelector(
+    (state: RootState) => state.user.isAuthorized
+  );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate("/");
+    }
+  }, [isAuthorized, navigate]);
 
   // for changing the input of the form fields
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -45,6 +59,15 @@ const Login = () => {
         const { token, user } = response.data;
         localStorage.setItem("access_token", token);
         console.log("user", user);
+        dispatch(
+          isLoggedIn({
+            username: user.username,
+            email: user.email,
+            profile: user.profile,
+            _id: user._id,
+          })
+        );
+        navigate("/");
       }
     } catch (error: any) {
       if (error.response) {
